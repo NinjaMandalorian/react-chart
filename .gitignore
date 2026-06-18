@@ -10,4 +10,5 @@
 sourcemap.json
 
 /Packages
+/DevPackages
 /wally.lock
