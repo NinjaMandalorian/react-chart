@@ -16,7 +16,6 @@ local story = {
 	story = function(props)
 		local pointCount = math.floor(props.controls.points)
 		local movePeriod = props.controls.speed > 0 and (50 * props.controls.speed / pointCount) or 0
-		movePeriod = math.max(movePeriod, 0.01)
 
 		local data, setData = React.useState({})
 		React.useEffect(function()
@@ -31,6 +30,11 @@ local story = {
 		React.useEffect(function()
 			local elapsed = 0
 
+			if movePeriod <= 0 then
+				return nil
+			end
+
+			movePeriod = math.max(movePeriod, 0.01)
 			local conn = RunService.Heartbeat:Connect(function(dt)
 				elapsed += dt
 

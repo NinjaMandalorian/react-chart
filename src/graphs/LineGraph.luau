@@ -97,11 +97,6 @@ local function prepareChartData(data: Types.SeriesMap, theme: Types.Theme): Line
 end
 
 local function buildSeries(data: LineChartSeries, plotSize: Vector2, bounds: LineChartBounds)
-	-- print("Building series")
-	-- print("#Points: ", #data.Points)
-	-- print("Series Color:", data.Color:ToHex())
-	-- print("Plot size:", plotSize)
-
 	local normalisedPoints : { LineChartPoint } = {}
 	for _, point in ipairs(data.Points) do
 		table.insert(normalisedPoints, {
@@ -141,16 +136,19 @@ local function buildSeries(data: LineChartSeries, plotSize: Vector2, bounds: Lin
 		)
 
 		if prevPoint then
-			local prevX = prevPoint.X
-			local prevY = prevPoint.Y
-			local delta = Vector2.new(pointX - prevX, pointY - prevY)
+			local prevX = prevPoint.X * plotSize.X
+			local prevY = prevPoint.Y * plotSize.Y
+			local nextX = point.X * plotSize.X
+			local nextY = point.Y * plotSize.Y
+			local delta = Vector2.new(nextX - prevX, nextY - prevY)
 			local length = delta.Magnitude
 
 			table.insert(segments, e("Frame", {
 				BackgroundColor3 = data.Color,
 				BorderSizePixel = 0,
 				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.fromOffset((prevX + pointX) / 2, (prevY + pointY) / 2),
+				Position = UDim2.fromOffset((prevX + nextX) / 2, (prevY + nextY) / 2),
+				Rotation = math.deg(math.atan2(delta.Y, delta.X)),
 				Size = UDim2.fromOffset(length, 2),
 				ZIndex = 4,
 			}))
@@ -178,7 +176,6 @@ function LineGraph(props: Types.LineGraphProps)
 		end
 
 		local function updateSize()
-			-- print("updateSize")
 			setPlotSize(pFrame.AbsoluteSize)
 		end
 
@@ -209,6 +206,7 @@ function LineGraph(props: Types.LineGraphProps)
 		SeriesPlot = e("Frame", {
 			Size = UDim2.fromScale(1, 1),
 			BackgroundTransparency = 1,
+			ref = plotRef,
 		}, e(React.Fragment, nil, seriesElements))
 	})
 end
