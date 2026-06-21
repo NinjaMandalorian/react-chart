@@ -166,12 +166,15 @@ local story = {
 				Red = e("TextBox", {
 					Text = red,
 					PlaceholderText = "Red",
+					BackgroundColor3 = Color3.new(0.819608, 0.313725, 0.313725),
 					Size = UDim2.fromOffset(200, 30),
 					[React.Event.FocusLost] = function(rbx) setRed(rbx.Text) end,
 				}),
 
 				Blue = e("TextBox", {
 					Text = blue,
+					PlaceholderText = "Blue",
+					BackgroundColor3 = Color3.new(0.313725, 0.47451, 0.819608),
 					Position = UDim2.fromOffset(0, 40),
 					Size = UDim2.fromOffset(200, 30),
 					[React.Event.FocusLost] = function(rbx) setBlue(rbx.Text) end,
@@ -179,6 +182,8 @@ local story = {
 
 				Green = e("TextBox", {
 					Text = green,
+					PlaceholderText = "Green",
+					BackgroundColor3 = Color3.new(0.313725, 0.819608, 0.341176),
 					Position = UDim2.fromOffset(0, 80),
 					Size = UDim2.fromOffset(200, 30),
 					[React.Event.FocusLost] = function(rbx) setGreen(rbx.Text) end,
@@ -186,6 +191,8 @@ local story = {
 
 				Yellow = e("TextBox", {
 					Text = yellow,
+					PlaceholderText = "Yellow",
+					BackgroundColor3 = Color3.new(0.819608, 0.768627, 0.313725),
 					Position = UDim2.fromOffset(0, 120),
 					Size = UDim2.fromOffset(200, 30),
 					[React.Event.FocusLost] = function(rbx) setYellow(rbx.Text) end,
