@@ -101,7 +101,7 @@ local function buildSeries(data: LineChartSeries, plotSize: Vector2, bounds: Lin
 	for _, point in ipairs(data.Points) do
 		table.insert(normalisedPoints, {
 			X = normalize(point.X, bounds.XLower, bounds.XUpper, 0, 1),
-			Y = normalize(point.Y, bounds.YLower, bounds.YUpper, 0, 1),
+			Y = 1 - normalize(point.Y, bounds.YLower, bounds.YUpper, 0, 1),
 		})
 	end
 
