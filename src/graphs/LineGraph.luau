@@ -197,7 +197,6 @@ function LineGraph(props: Types.LineGraphProps)
 			table.insert(seriesElements, segment)
 		end
 	end
-	-- print(#seriesElements)
 
 	return e("Frame", {
 		Size = UDim2.fromScale(1, 1),
