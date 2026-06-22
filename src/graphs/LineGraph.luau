@@ -1,6 +1,9 @@
-local React = require(script.Parent.Parent.React)
-local Types = require(script.Parent.Parent.Types)
-local Theme = require(script.Parent.Parent.utils.Theme)
+local src = script.Parent.Parent
+local React = require(src.React)
+
+local Types = require(src.Types)
+local Theme = require(src.utils.Theme)
+local Bounds = require(src.utils.Bounds)
 
 local e = React.createElement
 
@@ -185,6 +188,11 @@ function LineGraph(props: Types.LineGraphProps)
 			connection:Disconnect()
 		end
 	end, {plotRef.current})
+
+
+	local tickData = Bounds.generateAxisTicks(chartData.Bounds, 6)
+	chartData.Bounds.YLower = tickData.min
+	chartData.Bounds.YUpper = tickData.max
 
 	-- Rendering
 	local seriesElements = {}
