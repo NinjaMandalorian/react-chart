@@ -8,6 +8,20 @@ local e = React.createElement
 
 local DEFAULT_JSON = "0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5"
 
+local function normalizeSeriesJson(jsonText)
+	local trimmed = jsonText:match("^%s*(.-)%s*$")
+
+	if trimmed:sub(1, 1) == "[" and trimmed:sub(-1) == "]" then
+		return trimmed
+	end
+
+	if trimmed:sub(1, 1) == "{" and trimmed:sub(-1) == "}" then
+		return trimmed
+	end
+
+	return "[" .. trimmed .. "]"
+end
+
 local function decodeSeriesJson(jsonText)
 	local ok, decoded = pcall(function()
 		return HttpService:JSONDecode(jsonText)
@@ -23,20 +37,25 @@ end
 local story = {
 	react = React,
 	reactRoblox = ReactRoblox,
-	controls = {},
-	story = function()
-		local jsonText, setJsonText = React.useState(DEFAULT_JSON)
-		local data, setData = React.useState(decodeSeriesJson("[" .. DEFAULT_JSON .. "]") or { 0 })
+	controls = {
+		json = "",
+	},
+	story = function(props)
+		local storyJson = props.controls.json or ""
+		local jText = #storyJson > 0 and storyJson or DEFAULT_JSON
+		local jsonText, setJsonText = React.useState(jText)
+		local data, setData = React.useState(decodeSeriesJson(normalizeSeriesJson(jText)) or { 0 })
 
 		local function applyJson(text)
 			setJsonText(text)
 
-			local decoded = decodeSeriesJson("[" .. text .. "]")
+			local decoded = decodeSeriesJson(normalizeSeriesJson(text))
 			if decoded then
 				setData(decoded)
 			end
 		end
 
+		-- print("Rendering:", data)
 		return e("Frame", {
 			Size = UDim2.fromScale(1, 1),
 			BackgroundTransparency = 1,
