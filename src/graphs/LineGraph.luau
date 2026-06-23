@@ -167,7 +167,6 @@ local function prepareChartData(data: Types.SeriesMap, theme: Types.Theme, hasXA
 		}
 	end
 
-	print(minX)
 	return {
 		Bounds = {
 			XLower = minX,
