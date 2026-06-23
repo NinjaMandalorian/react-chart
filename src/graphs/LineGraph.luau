@@ -134,7 +134,7 @@ local function prepareSeriesMap(data): (Types.SeriesMap, boolean)
 end
 
 local function prepareChartData(data: Types.SeriesMap, theme: Types.Theme, hasXAxis: boolean): LineChartSeriesMap
-	local minX, maxX, minY, maxY = 0, 1, 0, 1
+	local minX, maxX, minY, maxY = math.huge, -math.huge, math.huge, -math.huge
 
 	local seriesNames = {}
 	for name, _ in pairs(data) do
@@ -167,6 +167,7 @@ local function prepareChartData(data: Types.SeriesMap, theme: Types.Theme, hasXA
 		}
 	end
 
+	print(minX)
 	return {
 		Bounds = {
 			XLower = minX,
