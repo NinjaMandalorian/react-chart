@@ -17,6 +17,34 @@ local DARK_THEME: Theme = {
 -- Color overrides
 local COLOR_OVERRIDES = {
 	RGB = { Color3.new(1, 0, 0), Color3.new(0, 1, 0), Color3.new(0, 0, 1) },
+	RainbowLight = {
+	Color3.fromHSV(0.00, 0.80, 0.75),
+	Color3.fromHSV(0.50, 0.80, 0.75),
+	Color3.fromHSV(0.25, 0.80, 0.75),
+	Color3.fromHSV(0.75, 0.80, 0.75),
+	Color3.fromHSV(0.08, 0.80, 0.75),
+	Color3.fromHSV(0.58, 0.80, 0.75),
+	Color3.fromHSV(0.33, 0.80, 0.75),
+	Color3.fromHSV(0.83, 0.80, 0.75),
+	Color3.fromHSV(0.17, 0.80, 0.75),
+	Color3.fromHSV(0.67, 0.80, 0.75),
+	Color3.fromHSV(0.42, 0.80, 0.75),
+	Color3.fromHSV(0.92, 0.80, 0.75),
+	},
+	RainbowDark = {
+		Color3.fromHSV(0.00, 0.65, 0.85),
+		Color3.fromHSV(0.50, 0.65, 0.85),
+		Color3.fromHSV(0.25, 0.65, 0.85),
+		Color3.fromHSV(0.75, 0.65, 0.85),
+		Color3.fromHSV(0.08, 0.65, 0.85),
+		Color3.fromHSV(0.58, 0.65, 0.85),
+		Color3.fromHSV(0.33, 0.65, 0.85),
+		Color3.fromHSV(0.83, 0.65, 0.85),
+		Color3.fromHSV(0.17, 0.65, 0.85),
+		Color3.fromHSV(0.67, 0.65, 0.85),
+		Color3.fromHSV(0.42, 0.65, 0.85),
+		Color3.fromHSV(0.92, 0.65, 0.85),
+	},
 }
 
 local Theme = {
@@ -65,6 +93,7 @@ function Theme.getSeriesColors(theme: Theme, seriesNames: { string }): { [string
 		for idx, name in ipairs(seriesNames) do
 			colors[name] = override[((idx - 1) % #override) + 1]
 		end
+		return colors
 	end
 
 	local isDark = Theme.isDark(theme)
