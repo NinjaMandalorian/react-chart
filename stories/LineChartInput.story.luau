@@ -46,16 +46,17 @@ local story = {
 		local jsonText, setJsonText = React.useState(jText)
 		local data, setData = React.useState(decodeSeriesJson(normalizeSeriesJson(jText)) or { 0 })
 
-		local function applyJson(text)
-			setJsonText(text)
+		React.useEffect(function()
+			setJsonText(props.controls.json)
+		end, {props.controls.json})
 
-			local decoded = decodeSeriesJson(normalizeSeriesJson(text))
+		React.useEffect(function()
+			local decoded = decodeSeriesJson(normalizeSeriesJson(jsonText))
 			if decoded then
 				setData(decoded)
 			end
-		end
+		end, {jsonText})
 
-		-- print("Rendering:", data)
 		return e("Frame", {
 			Size = UDim2.fromScale(1, 1),
 			BackgroundTransparency = 1,
@@ -75,7 +76,7 @@ local story = {
 					TextYAlignment = Enum.TextYAlignment.Top,
 					TextWrapped = true,
 					[React.Event.FocusLost] = function(rbx)
-						applyJson(rbx.Text)
+						setJsonText(rbx.Text)
 					end,
 				}),
 			}),
