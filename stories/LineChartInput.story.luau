@@ -56,7 +56,6 @@ local story = {
 		end, {props.controls.TransparentBackground})
 
 		React.useEffect(function()
-			print("json change!")
 			if props.controls.GradualLoad then
 				setJsonText("")
 			end
@@ -66,13 +65,10 @@ local story = {
 		React.useEffect(function()
 			local decoded = decodeSeriesJson(normalizeSeriesJson(jsonText))
 			if decoded then
-				print("Gradual", gradual)
 				if not gradual then
-					print("inst")
 					setData(decoded)
 					return nil
 				end
-				print("grad")
 				if decoded[1] and typeof(decoded[1]) == "number" then
 					decoded = {Series = decoded}
 				end
@@ -120,7 +116,6 @@ local story = {
 
 						table.insert(incremental[item.Series], item.Point)
 					end
-					print("setting data")
 
 					setData(table.clone(incremental))
 
@@ -138,7 +133,6 @@ local story = {
 			return nil
 		end, {jsonText, gradual})
 
-		print("Rendering..", data)
 		return e("Frame", {
 			Size = UDim2.fromScale(1, 1),
 			BackgroundTransparency = 1,
