@@ -14,6 +14,7 @@ export type Theme = {
 	Text: Color3?,
 	Grid: Color3?,
 	Accent: Color3?,
+	SeriesOverride: {Color3}?
 }
 
 export type LineGraphProps = {

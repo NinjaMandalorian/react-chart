@@ -8,6 +8,8 @@ export type Theme = Types.Theme
 
 local reactChart = {
 	DEFAULT_THEME = Theme.DEFAULT,
+	ColorOverrides = Theme.COLOR_OVERRIDES,
+
 	LineGraph = LineGraph,
 }
 
