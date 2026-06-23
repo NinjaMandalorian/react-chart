@@ -4,6 +4,7 @@ local React = require(src.React)
 local Types = require(src.Types)
 local Theme = require(src.utils.Theme)
 local Bounds = require(src.utils.Bounds)
+local HoverTip = require(src.components.HoverTip)
 
 type LineChartPoint = {
 	X: number,
@@ -231,7 +232,7 @@ local function buildAxisTicks(axis: "X" | "Y", ticks, bounds: LineChartBounds, t
 	return elements
 end
 
-local function buildSeries(data: LineChartSeries, plotSize: Vector2, bounds: LineChartBounds)
+local function buildSeries(seriesName: string, data: LineChartSeries, plotSize: Vector2, bounds: LineChartBounds)
 	local normalisedPoints : { LineChartPoint } = {}
 	for _, point in ipairs(data.Points) do
 		table.insert(normalisedPoints, {
@@ -248,24 +249,34 @@ local function buildSeries(data: LineChartSeries, plotSize: Vector2, bounds: Lin
 		local point = normalisedPoints[pIdx]
 		local pointX = point.X
 		local pointY = point.Y
+		local tooltipText = string.format("%s\nX: %g\nY: %g", seriesName, data.Points[pIdx].X, data.Points[pIdx].Y)
 
 		table.insert(
 			points,
-			e("Frame", {
+			e(HoverTip, {
+				Text = tooltipText,
 				BackgroundColor3 = data.Color,
-				BorderSizePixel = 0,
-				AnchorPoint = Vector2.new(0.5, 0.5),
 				Position = UDim2.fromScale(pointX, pointY),
-				Size = UDim2.fromOffset(8, 8),
+				Size = UDim2.fromOffset(120, 60),
+				AnchorPoint = Vector2.new(0.5, 0.5),
 				ZIndex = 5,
 			}, {
-				e("UICorner", {
-					CornerRadius = UDim.new(1, 0),
-				}),
-				e("UIStroke", {
-					Color = Color3.new(1, 1, 1),
-					Transparency = 0.35,
-					Thickness = 1,
+				e("Frame", {
+					BackgroundColor3 = data.Color,
+					BorderSizePixel = 0,
+					AnchorPoint = Vector2.new(0.5, 0.5),
+					Position = UDim2.fromScale(0.5, 0.5),
+					Size = UDim2.fromOffset(8, 8),
+					ZIndex = 6,
+				}, {
+					e("UICorner", {
+						CornerRadius = UDim.new(1, 0),
+					}),
+					e("UIStroke", {
+						Color = Color3.new(1, 1, 1),
+						Transparency = 0.35,
+						Thickness = 1,
+					}),
 				}),
 			})
 		)
@@ -343,8 +354,8 @@ function LineGraph(props: Types.LineGraphProps)
 
 	-- Rendering
 	local seriesElements = {}
-	for _, series in pairs(chartData.Dataset) do
-		local points, segments = buildSeries(series, plotSize, chartData.Bounds)
+	for seriesName, series in pairs(chartData.Dataset) do
+		local points, segments = buildSeries(seriesName, series, plotSize, chartData.Bounds)
 		for _, point in ipairs(points) do
 			table.insert(seriesElements, point)
 		end
