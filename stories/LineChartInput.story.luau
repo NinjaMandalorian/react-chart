@@ -6,8 +6,6 @@ local react_chart = require(ReplicatedStorage.Packages["react-chart"])
 
 local e = React.createElement
 
-local DEFAULT_JSON = "0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5"
-
 local function normalizeSeriesJson(jsonText)
 	local trimmed = jsonText:match("^%s*(.-)%s*$")
 
@@ -38,12 +36,11 @@ local story = {
 	react = React,
 	reactRoblox = ReactRoblox,
 	controls = {
-		json = "",
+		json = "0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5",
 		TransparentBackground = false,
 	},
 	story = function(props)
-		local storyJson = props.controls.json or ""
-		local jText = #storyJson > 0 and storyJson or DEFAULT_JSON
+		local jText = props.controls.json 
 		local jsonText, setJsonText = React.useState(jText)
 		local data, setData = React.useState(decodeSeriesJson(normalizeSeriesJson(jText)) or { 0 })
 		local transparent, setTransparent = React.useState(props.controls.TransparentBackground)
