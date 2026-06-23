@@ -63,17 +63,19 @@ local story = {
 		}, {
 			JsonInput = e("Frame", {
 				Size = UDim2.fromScale(1, 0.1),
-				BackgroundTransparency = 1,
+				BackgroundColor3 = Color3.fromRGB(28, 28, 32),
 			}, {
 				Input = e("TextBox", {
-					Size = UDim2.fromScale(1, 1),
-					BackgroundColor3 = Color3.fromRGB(28, 28, 32),
+					AnchorPoint = Vector2.new(.5,0),
+					BackgroundTransparency = 1,
+					Position = UDim2.fromScale(0.5, 0),
+					Size = UDim2.fromScale(0.9, 1),
 					TextColor3 = Color3.fromRGB(245, 245, 245),
 					PlaceholderText = "Enter JSON array",
 					Text = jsonText,
 					ClearTextOnFocus = false,
-					TextXAlignment = Enum.TextXAlignment.Left,
-					TextYAlignment = Enum.TextYAlignment.Top,
+					TextXAlignment = Enum.TextXAlignment.Center,
+					TextYAlignment = Enum.TextYAlignment.Center,
 					TextWrapped = true,
 					[React.Event.FocusLost] = function(rbx)
 						setJsonText(rbx.Text)
