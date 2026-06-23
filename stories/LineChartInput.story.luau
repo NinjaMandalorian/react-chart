@@ -39,12 +39,18 @@ local story = {
 	reactRoblox = ReactRoblox,
 	controls = {
 		json = "",
+		TransparentBackground = false,
 	},
 	story = function(props)
 		local storyJson = props.controls.json or ""
 		local jText = #storyJson > 0 and storyJson or DEFAULT_JSON
 		local jsonText, setJsonText = React.useState(jText)
 		local data, setData = React.useState(decodeSeriesJson(normalizeSeriesJson(jText)) or { 0 })
+		local transparent, setTransparent = React.useState(props.controls.TransparentBackground)
+		
+		React.useEffect(function()
+			setTransparent(props.controls.TransparentBackground)
+		end, {props.controls.TransparentBackground})
 
 		React.useEffect(function()
 			setJsonText(props.controls.json)
@@ -90,6 +96,9 @@ local story = {
 			}, {
 				Graph = e(react_chart.LineGraph, {
 					Data = data,
+					Theme = {
+						TransparentBackground = transparent,
+					}
 				}),
 			}),
 		})
