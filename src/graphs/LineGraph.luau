@@ -120,7 +120,7 @@ local function prepareSeriesMap(data): (Types.SeriesMap, boolean)
 			local oSeries = {}
 			for idx, value in ipairs(seriesData) do
 				local point, pointHasX = convertPoint(value, idx)
-				hasXAxis = hasXAxis and pointHasX
+				hasXAxis = hasXAxis or pointHasX
 				table.insert(oSeries, point)
 			end
 			output[seriesName] = oSeries
@@ -183,7 +183,7 @@ local function buildAxisTicks(axis: "X" | "Y", ticks, bounds: LineChartBounds, t
 
 	local elements = {
 		AxisLine = e("Frame", {
-			BackgroundColor3 = theme.Grid,
+			BackgroundColor3 = theme.Text,
 			BorderSizePixel = 0,
 			AnchorPoint = isYAxis and Vector2.new(1, 0) or nil,
 			Position = isYAxis and UDim2.fromScale(1, 0) or UDim2.fromScale(0, 0),
@@ -197,10 +197,10 @@ local function buildAxisTicks(axis: "X" | "Y", ticks, bounds: LineChartBounds, t
 	for idx, tickVal in ipairs(ticks.ticks) do
 		local tickPosition = isYAxis
 			and (1 - normalizeWithPadding(tickVal, bounds.YLower, bounds.YUpper))
-			or normalize(tickVal, bounds.XLower, bounds.XUpper, 0, 1)
+			or normalizeWithPadding(tickVal, bounds.XLower, bounds.XUpper)
 
 		elements["TickLine" .. idx] = e("Frame", {
-			BackgroundColor3 = isYAxis and theme.Text or theme.Grid,
+			BackgroundColor3 = theme.Text,
 			BorderSizePixel = 0,
 			AnchorPoint = isYAxis and Vector2.new(1, 0.5) or Vector2.new(0.5, 0),
 			Position = isYAxis and UDim2.fromScale(1, tickPosition) or UDim2.fromScale(tickPosition, 0),
@@ -235,7 +235,7 @@ local function buildSeries(data: LineChartSeries, plotSize: Vector2, bounds: Lin
 	local normalisedPoints : { LineChartPoint } = {}
 	for _, point in ipairs(data.Points) do
 		table.insert(normalisedPoints, {
-			X = normalize(point.X, bounds.XLower, bounds.XUpper, 0, 1),
+			X = normalizeWithPadding(point.X, bounds.XLower, bounds.XUpper),
 			Y = 1 - normalizeWithPadding(point.Y, bounds.YLower, bounds.YUpper),
 		})
 	end
