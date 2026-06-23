@@ -355,9 +355,9 @@ function LineGraph(props: Types.LineGraphProps)
 
 	return e("Frame", {
 		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = theme.TransparentBackground and 1 or 0,
 		BackgroundColor3 = theme.Background,
 		BorderSizePixel = 0,
-		-- BackgroundTransparency = 1,
 	}, {
 		
 		GraphYAxis = e("Frame", {
@@ -375,7 +375,7 @@ function LineGraph(props: Types.LineGraphProps)
 			Size = UDim2.fromScale(plotWidth, plotHeight),
 			BorderSizePixel = 0,
 			BackgroundColor3 = theme.PlotBackground,
-			-- BackgroundTransparency = 1,
+			BackgroundTransparency = theme.TransparentBackground and 1 or 0,
 			ref = plotRef,
 		}, e(React.Fragment, nil, seriesElements))
 	})

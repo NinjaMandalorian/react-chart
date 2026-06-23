@@ -7,6 +7,7 @@ export type SeriesMap = { [string]: SeriesData }
 
 export type Theme = {
 	Name: string?,
+	TransparentBackground: boolean?,
 	Background: Color3?,
 	Surface: Color3?,
 	PlotBackground: Color3?,
